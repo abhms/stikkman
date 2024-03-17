@@ -9,6 +9,9 @@ const Course = {
         [course.name, course.thumbnail, course.author, course.description]
       );
   },
+  findAllCourse:()=>{
+    return db.promise().query("SELECT * FROM Courses");
+  }
 };
 
 module.exports = Course;

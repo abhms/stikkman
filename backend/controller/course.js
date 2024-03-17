@@ -3,9 +3,9 @@ const uploadImgToCloudinary = require("../config/Upload");
 const AllCourse = {
   addCourse: async (req, res) => {
     try {
-      const {thumbnail} =req.files
-      const { name,  author, description } = req.body;
-      console.log(req.body,"pppppppppppp")
+      const { thumbnail } = req.files;
+      const { name, author, description } = req.body;
+      console.log(req.body, "pppppppppppp");
       const requiredFields = ["name", "author"];
       const url = await uploadImgToCloudinary(thumbnail);
       // console.log(url, "urllrlrlrl");
@@ -22,7 +22,7 @@ const AllCourse = {
 
       const newCourse = {
         name,
-        thumbnail:url,
+        thumbnail: url,
         author,
         description,
       };
@@ -30,6 +30,18 @@ const AllCourse = {
       const result = await Course.create(newCourse);
       console.log(result, "pppppppppppp");
       res.status(201).json({ message: "Course created successfully" });
+    } catch (error) {
+      console.error("Error creating course:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  },
+
+  getAllCourse: async (req, res) => {
+    try {
+      const courses = await Course.findAllCourse();
+      console.log(courses[0]);
+      const CourseData=courses[0]
+      res.status(200).json({ message: "All Courses", CourseData});
     } catch (error) {
       console.error("Error creating course:", error);
       res.status(500).json({ error: "Internal server error" });

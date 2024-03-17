@@ -11,6 +11,7 @@ app.use(cors());
 app.use(bodyParser.json()); 
 
 app.post("/course", AllCourse.addCourse);
+app.get("/courses",AllCourse.getAllCourse)
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
