@@ -1,32 +1,36 @@
 const cloudinary = require("cloudinary").v2;
-const uploadImgToCloudinary = async (imageFile) => {
-  try {
+const fs = require("fs");
+const path = require("path");
 
-    cloudinary.config({
-      secure: true,
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY,
+  api_key: process.env.CLOUDINARY_API,
+  api_secret: process.env.CLOUDINARY_SECRET,
+});
+
+const uploadImgToCloudinary = async (fileData) => {
+  try {
+    const tempDir = path.join(__dirname, "temp");
+    if (!fs.existsSync(tempDir)) {
+      fs.mkdirSync(tempDir, { recursive: true });
+    }
+
+    const tempFilePath = path.join(tempDir, fileData.name);
+
+    fs.writeFileSync(tempFilePath, fileData.data);
+
+    const result = await cloudinary.uploader.upload(tempFilePath, {
+      folder: "your_folder_name",
+      public_id: fileData.name,
     });
 
-    console.log(cloudinary.config(),"oooooooooooooo");
-    console.log(imageFile, "imageFileimageFileimageFile");
-    const formData = new FormData();
-    formData.append("file", imageFile);
-
-    const response = await fetch(
-      `https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY}/image/upload`,
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
-
-    const responseData = await response.json();
-    console.log(responseData, "ressss");
-
-    if (!responseData.secure_url) {
+    if (!result.secure_url) {
       throw new Error("Failed to upload image to Cloudinary");
     }
 
-    return responseData.secure_url;
+    fs.unlinkSync(tempFilePath);
+
+    return result.secure_url;
   } catch (error) {
     console.error("Error uploading image to Cloudinary:", error.message);
     throw error;

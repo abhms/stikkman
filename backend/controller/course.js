@@ -3,10 +3,12 @@ const uploadImgToCloudinary = require("../config/Upload");
 const AllCourse = {
   addCourse: async (req, res) => {
     try {
-      const { name, thumbnail, author, description } = req.body;
+      const {thumbnail} =req.files
+      const { name,  author, description } = req.body;
+      console.log(req.body,"pppppppppppp")
       const requiredFields = ["name", "author"];
-    //   const url = await uploadImgToCloudinary(thumbnail);
-    //   console.log(url, "urllrlrlrl");
+      const url = await uploadImgToCloudinary(thumbnail);
+      // console.log(url, "urllrlrlrl");
       const missingField = requiredFields.find((field) => !req.body[field]);
 
       if (missingField) {
@@ -20,7 +22,7 @@ const AllCourse = {
 
       const newCourse = {
         name,
-        thumbnail,
+        thumbnail:url,
         author,
         description,
       };

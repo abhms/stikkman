@@ -3,10 +3,10 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser'); 
 const AllCourse = require("./controller/course");
-
+const fileUpload = require("express-fileupload");
 const app = express();
 const port = process.env.PORT || 4000;
-
+app.use(fileUpload())
 app.use(cors());
 app.use(bodyParser.json()); 
 
