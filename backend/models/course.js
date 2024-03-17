@@ -11,6 +11,15 @@ const Course = {
   },
   findAllCourse:()=>{
     return db.promise().query("SELECT * FROM Courses");
+  } ,
+  findCourseByAuthor:(author)=>{
+    return db.promise().query("SELECT * FROM Courses WHERE author = ?", [author]);
+  }, 
+   findCourseById:(id)=>{
+    return db.promise().query("SELECT * FROM Courses WHERE id = ?", [id]);
+  },
+  deleteCourseById:(id)=>{
+    return db.promise().query("DELETE FROM Courses WHERE id = ?", [id]);
   }
 };
 

@@ -40,10 +40,42 @@ const AllCourse = {
     try {
       const courses = await Course.findAllCourse();
       console.log(courses[0]);
-      const CourseData=courses[0]
-      res.status(200).json({ message: "All Courses", CourseData});
+      const CourseData = courses[0];
+      res.status(200).json({ message: "All Courses", CourseData });
     } catch (error) {
       console.error("Error creating course:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  },
+  getCourseByAuthor: async (req, res) => {
+    try {
+      const { author } = req.params;
+      const AutherCourse = await Course.findCourseByAuthor(author);
+      const AuthorCourseData = AutherCourse[0];
+      res
+        .status(200)
+        .json({ message: "All Courses by this Author", AuthorCourseData });
+    } catch (error) {
+      console.error("Error creating course:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  },
+
+  deleteCourse: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const findCourseByIdData = await Course.findCourseById(id);
+
+      if (findCourseByIdData[0].length > 0) {
+        await Course.deleteCourseById(id);
+        res.status(200).json({ message: "Course deleted successfully" });
+      } else {
+        res
+          .status(404)
+          .json({ message: "Course not found or already deleted" });
+      }
+    } catch (error) {
+      console.error("Error deleting course:", error);
       res.status(500).json({ error: "Internal server error" });
     }
   },
