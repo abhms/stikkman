@@ -9,7 +9,7 @@ Clone : git clone https://github.com/abhms/stikkman.git
 Install dependencies : npm install
 Run : npm start
 ```
-## Local Setup Bakend
+## Local Setup Backend
 ```bash
 cd backend
 Install dependencies : npm install
