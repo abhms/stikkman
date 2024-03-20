@@ -16,7 +16,7 @@ Install dependencies : npm install
 Run : npm start
 ```
 
-## Environment  Setup Backend
+## Environment Setup Frontend
 
 Create a .env file and write API url like mentioned in `.env.example`
 ```bash
@@ -25,7 +25,7 @@ REACT_APP_BACKEND_URL=
 
 In this is Project I am calling api from .env 
 
-## Environment  Setup Frontend
+## Environment Setup Backend
 Create a .env file and write API url like mentioned in `.env.example` ,create MySQL database and all Database port, connection data usename,datbase keep course because we are using this project for otherwise change accoring to prefrenece for connecting with that database and CLOUDINARY is just cloud_name of cloudinary and create cloudinary account just paste the API key and secret 
 ```bash
 PORT=
