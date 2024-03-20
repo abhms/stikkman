@@ -12,8 +12,10 @@ app.use(bodyParser.json());
 
 app.post("/course", AllCourse.addCourse);
 app.get("/courses",AllCourse.getAllCourse)
+app.get("/coursesById/:id",AllCourse.getCourseById)
 app.get("/courses/:author",AllCourse.getCourseByAuthor)
-app.delete("/courses/:id",AllCourse.deleteCourse)
+app.delete("/courses/:id",AllCourse.deleteCourse) 
+app.put("/course/:id",AllCourse.updateCourse) 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });

@@ -47,6 +47,16 @@ const AllCourse = {
       res.status(500).json({ error: "Internal server error" });
     }
   },
+  getCourseById: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const [courseData] = await Course.findCourseById(id);
+      res.status(200).json({ message: "All Courses", courseData });
+    } catch (error) {
+      console.error("Error creating course:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  },
   getCourseByAuthor: async (req, res) => {
     try {
       const { author } = req.params;
@@ -79,6 +89,44 @@ const AllCourse = {
       res.status(500).json({ error: "Internal server error" });
     }
   },
+  updateCourse: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { thumbnail } = req.files;
+      const { name, author, description } = req.body;
+  
+      // Upload thumbnail image to cloudinary and get the URL
+      const url = await uploadImgToCloudinary(thumbnail);
+  
+      // Check if course with the given ID exists
+      const [courseData] = await Course.findCourseById(id);
+      if (courseData.length === 0) {
+        return res.status(404).json({ message: "Course not found" });
+      }
+  
+      // Prepare data object to be updated
+      const dataToUpdate = {};
+      if (name) dataToUpdate.name = name;
+      if (author) dataToUpdate.author = author;
+      if (description) dataToUpdate.description = description;
+      if (url) dataToUpdate.thumbnail = url;
+  
+      // Update course
+      const affectedRows = await Course.findByIdAndUpdate(id, dataToUpdate);
+      console.log(affectedRows,"pppppp")
+      if (affectedRows > 0) {
+        res.status(200).json({ message: "Course updated successfully" });
+      } else {
+        res.status(400).json({ message: "No data to update" });
+      }
+      // res.status(200).json({ message: "Course updated successfully" });
+
+    } catch (error) {
+      console.error("Error updating course:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  },
+  
 };
 
 module.exports = AllCourse;
