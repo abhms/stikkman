@@ -39,3 +39,11 @@ CLOUDINARY=
 CLOUDINARY_API=
 CLOUDINARY_SECRET=
 ```
+## For add course
+For adding course into datbase use `/course` API URL and fill all the details in formdata using postman like below:
+```bash
+thumbnail :Img of course thumbnail ( Type of Input : Image)
+name :name of course (Type of Input : String)
+author :author of course (Type of Input : String)
+description:description of course (Type of Input : String)
+```
