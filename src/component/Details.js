@@ -52,9 +52,6 @@ const Details = () => {
               <strong>Author:</strong> {course.author}
             </p>
             <p>
-              <strong>Created At:</strong> {course.created_at}
-            </p>
-            <p>
               <strong>Description:</strong> {course.description}
             </p>
             <button onClick={()=>deleteCourse()}>Delete Course</button>

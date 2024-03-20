@@ -47,7 +47,7 @@ const Card = () => {
                   <h3 className="card-author">{item.author}</h3>
                   <p className="card-date">{item.created_at}</p>
                   <p className="card-description">{item.description}</p>
-                  <button className="card-button" onClick={()=>redirectOnDetail(item.id)}>Learn More</button>
+                  <button className="card-button" onClick={()=>redirectOnDetail(item.id)}>View Details</button>
                 </div>
               </div>
             ))}
