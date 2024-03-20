@@ -16,7 +16,7 @@ Install dependencies : npm install
 Run : npm start
 ```
 
-## Environment  Setup Frontend
+## Environment  Setup Backend
 
 Create a .env file and write API url like mentioned in `.env.example`
 ```bash
