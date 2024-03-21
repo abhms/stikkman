@@ -1,4 +1,4 @@
-# Stikkman UI Task
+# Stikkman UX Task
 
 This project is build using React.js and Node.js
 

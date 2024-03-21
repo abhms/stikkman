@@ -1,4 +1,4 @@
-# Stikkman UI Backend
+# Stikkman UX Backend
 
 This project is build using Node.js ,I am using MySQL database.
 

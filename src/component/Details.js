@@ -29,7 +29,7 @@ const Details = () => {
   const deleteCourse = async () => {
     try {
       const response = await axios.delete(
-        `${process.env.REACT_APP_BACKEND_URL}/courses/${id}`
+        `${process.env.REACT_APP_BACKEND_URL}/course/${id}`
       );
       navigate("/");
     } catch (error) {}
