@@ -51,7 +51,12 @@ const AllCourse = {
     try {
       const { id } = req.params;
       const [courseData] = await Course.findCourseById(id);
-      res.status(200).json({ message: "All Courses", courseData });
+      console.log(courseData,"ppppp")
+      if(courseData.length===0){
+      res.status(200).json({ message: "No Course found" });
+      }else{
+        res.status(200).json({ message: "All Courses", courseData });
+      }
     } catch (error) {
       console.error("Error creating course:", error);
       res.status(500).json({ error: "Internal server error" });
