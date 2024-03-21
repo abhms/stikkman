@@ -51,18 +51,18 @@ const Details = () => {
       <div className="details-content">
         <div className="details-image-container">
           <img
-            src={course.thumbnail}
-            alt={course.name}
+            src={course?.thumbnail}
+            alt={course?.name}
             className="details-image"
           />
         </div>
         <div className="details-info">
           <h1>Name : {course.name}</h1>
           <p>
-            <strong>Author:</strong> {course.author}
+            <strong>Author:</strong> {course?.author}
           </p>
           <p>
-            <strong>Description:</strong> {course.description}
+            <strong>Description:</strong> {course&& course?.description?course.description:"--"}
           </p>
           <button onClick={() => deleteCourse()}>Delete Course</button>
         </div>

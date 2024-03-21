@@ -3,14 +3,19 @@ const uploadImgToCloudinary = require("../config/Upload");
 const AllCourse = {
   addCourse: async (req, res) => {
     try {
+      if (!req?.files?.thumbnail) {
+        return res.status(400).json({
+          message: "Thumbnail required"
+        });
+      }
       const { thumbnail } = req.files;
       const { name, author, description } = req.body;
       console.log(req.body, "pppppppppppp");
+      
+      // Only 'name' and 'author' are required
       const requiredFields = ["name", "author"];
-      const url = await uploadImgToCloudinary(thumbnail);
-      // console.log(url, "urllrlrlrl");
       const missingField = requiredFields.find((field) => !req.body[field]);
-
+  
       if (missingField) {
         return res.status(400).json({
           message: `${
@@ -18,15 +23,16 @@ const AllCourse = {
           } is required`,
         });
       }
-      console.log(req.body, "zlvlsjdbvjbsdkv");
-
+      
+      const url = await uploadImgToCloudinary(thumbnail);
+  
       const newCourse = {
         name,
         thumbnail: url,
         author,
-        description,
+        description, // Description can be empty or undefined
       };
-
+  
       const result = await Course.create(newCourse);
       console.log(result, "pppppppppppp");
       res.status(201).json({ message: "Course created successfully" });
@@ -35,6 +41,7 @@ const AllCourse = {
       res.status(500).json({ error: "Internal server error" });
     }
   },
+  
 
   getAllCourse: async (req, res) => {
     try {
@@ -53,9 +60,9 @@ const AllCourse = {
       const [courseData] = await Course.findCourseById(id);
       console.log(courseData,"ppppp")
       if(courseData.length===0){
-      res.status(200).json({ message: "No Course found" });
+      res.status(200).json({ message: "No Course found with specified Id" });
       }else{
-        res.status(200).json({ message: "All Courses", courseData });
+        res.status(200).json({ message: "Courses with specified Id", courseData });
       }
     } catch (error) {
       console.error("Error creating course:", error);
@@ -97,16 +104,20 @@ const AllCourse = {
   updateCourse: async (req, res) => {
     try {
       const { id } = req.params;
-      const { thumbnail } = req.files;
+      let thumbnail=req?.files?.thumbnail
+      // const { thumbnail } = req.files;
       const { name, author, description } = req.body;
   
       // Upload thumbnail image to cloudinary and get the URL
-      const url = await uploadImgToCloudinary(thumbnail);
+      let url;
+      if(thumbnail){
+        url = await uploadImgToCloudinary(thumbnail);
+      }
   
       // Check if course with the given ID exists
       const [courseData] = await Course.findCourseById(id);
       if (courseData.length === 0) {
-        return res.status(404).json({ message: "Course not found" });
+        return res.status(404).json({ message: "Course not found with specified Id" });
       }
   
       // Prepare data object to be updated

@@ -6,7 +6,6 @@ const conn = mysql.createConnection({
   port: process.env.DB_PORT,
   user: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
-  database: process.env.DATABASE,
 });
 
 conn.connect((err) => {
@@ -16,6 +15,7 @@ conn.connect((err) => {
   }
   console.log("Connected to MySQL");
 
+  // Create the database 'course'
   const createDatabaseQuery = `CREATE DATABASE IF NOT EXISTS course`;
 
   conn.query(createDatabaseQuery, (err, result) => {
@@ -25,23 +25,32 @@ conn.connect((err) => {
     }
     console.log("Database created successfully");
 
-    const createTableQuery = `
-      CREATE TABLE IF NOT EXISTS courses (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        name VARCHAR(255) NOT NULL,
-        thumbnail VARCHAR(255) NOT NULL,
-        author VARCHAR(255) NOT NULL,
-        description TEXT NOT NULL,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-      )
-    `;
-
-    conn.query(createTableQuery, (err, result) => {
+    // Once the database is created, switch to using it
+    conn.query("USE course", (err, result) => {
       if (err) {
-        console.error("Error creating courses table: ", err);
+        console.error("Error switching to database 'course': ", err);
         return;
       }
-      console.log("Courses table created successfully");
+
+      // Create the 'courses' table within the 'course' database
+      const createTableQuery = `
+        CREATE TABLE IF NOT EXISTS courses (
+          id INT AUTO_INCREMENT PRIMARY KEY,
+          name VARCHAR(255) NOT NULL,
+          thumbnail VARCHAR(255) NOT NULL,
+          author VARCHAR(255) NOT NULL,
+          description TEXT NULL, 
+          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+      `;
+
+      conn.query(createTableQuery, (err, result) => {
+        if (err) {
+          console.error("Error creating courses table: ", err);
+          return;
+        }
+        console.log("Courses table created successfully");
+      });
     });
   });
 });

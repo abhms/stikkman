@@ -43,10 +43,10 @@ const Card = () => {
               <div className="card" key={index}>
                 <img src={item.thumbnail} alt={item.name} className="card-image" />
                 <div className="card-details">
-                  <h2 className="card-name">{item.name}</h2>
-                  <h3 className="card-author">{item.author}</h3>
-                  <p className="card-date">{item.created_at}</p>
-                  <p className="card-description">{item.description}</p>
+                  <h2 className="card-name">Name : {item?.name}</h2>
+                  <h3 className="card-author">Auther : {item?.author}</h3>
+                  <p className="card-date">Creation Date : {item?.created_at}</p>
+                  <p className="card-description">Description : {item && item.description?item.description:"--"}</p>
                   <button className="card-button" onClick={()=>redirectOnDetail(item.id)}>View Details</button>
                 </div>
               </div>

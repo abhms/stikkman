@@ -2,11 +2,12 @@ const db = require("../config/database");
 
 const Course = {
   create: (course) => {
+    const description = course.description !== undefined && course.description !== null ? course.description : null;
     return db
       .promise()
       .execute(
         "INSERT INTO courses (name, thumbnail, author, description, created_at) VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP)",
-        [course.name, course.thumbnail, course.author, course.description]
+        [course.name, course.thumbnail, course.author, description]
       );
   },
   findAllCourse: () => {
